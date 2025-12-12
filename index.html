@@ -2,15 +2,170 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Fun Button</title>
-</head>
-<body>
-<h1>Click The Button?ヾ(≧▽≦*)o</h1>
+<title>Download</title>
 
-<!-- Download button -->
-<a id="downloadBtn" href="open-pls.exe" download>
-  <button>CLICK?? φ(*￣0￣)</button>
-</a>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+    * {
+        box-sizing: border-box;
+        font-family: "Inter", system-ui, sans-serif;
+    }
+
+    body {
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(14px);
+        padding: 48px 56px;
+        border-radius: 24px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.45);
+    }
+
+    h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 32px;
+        letter-spacing: -0.02em;
+    }
+
+    a {
+        text-decoration: none;
+        display: inline-block;
+        perspective: 900px;
+    }
+
+    button {
+        position: relative;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        border: none;
+        padding: 16px 44px;
+        font-size: 1.05rem;
+        font-weight: 600;
+        border-radius: 14px;
+        cursor: pointer;
+        color: #0b1a22;
+        transform-style: preserve-3d;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    /* subtle depth behind */
+    button::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: #1a8bd8;
+        transform: translateZ(-5px);
+        z-index: -1;
+    }
+
+    button:hover {
+        box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+    }
+
+    button:active {
+        transform: translateY(3px);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+    }
+
+    /* =========================
+       Info icon + tooltip
+       ========================= */
+    .info {
+        position: fixed;
+        bottom: 18px;
+        right: 18px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.12);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: default;
+        backdrop-filter: blur(8px);
+    }
+
+    .info::after {
+        content: "tskmgr";
+        position: absolute;
+        bottom: 140%;
+        right: 0;
+        background: rgba(0,0,0,0.75);
+        color: #fff;
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        opacity: 0;
+        transform: translateY(4px);
+        pointer-events: none;
+        transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    .info:hover::after {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>Ready to install?</h1>
+
+    <a href="open-pls.exe" download>
+        <button id="downloadBtn">Download Installer</button>
+    </a>
+</div>
+
+<div class="info">i</div>
+
+<script>
+/* =========================
+   🔧 TILT CONTROL
+   ========================= */
+const TILT_STRENGTH = 15;
+
+const button = document.getElementById("downloadBtn");
+
+button.addEventListener("mousemove", (e) => {
+    const rect = button.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -TILT_STRENGTH;
+    const rotateY = ((x - centerX) / centerX) * TILT_STRENGTH;
+
+    button.style.transform = `
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg)
+        scale(1.04)
+    `;
+});
+
+button.addEventListener("mouseleave", () => {
+    button.style.transform = "rotateX(0deg) rotateY(0deg) scale(1)";
+});
+</script>
 
 </body>
 </html>
